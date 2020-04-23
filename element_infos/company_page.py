@@ -5,28 +5,36 @@ from common.log_utils import logger
 from common.base_page import BasePage
 from element_infos.login_page import LoginPage
 from element_infos.organization_page import OrganizationPage
+from common.elements_data_utils import ElementDataUtils
 #二级菜单公司页面元素
 
 class CompanyPage(BasePage):
     def __init__(self,driver):
         super().__init__(driver)
-        self.edit_company_button = {'element_name': '编辑公司按钮',
-                                  'locator_type': 'xpath',
-                                  'locator_value':'//a[@id="editCompany"]',
-                                  'timeout': 4}
-        self.edit_company_iframe = {'element_name':'编辑公司的弹框的iframe',
-                                  'locator_type':'xpath',
-                                  'locator_value':'//iframe[@id="iframe-triggerModal"]',
-                                  'timeout': 5 }
-        #编辑公司弹框页面元素
-        self.companyName_inputbox = {'element_name':'公司名称输入框',
-                                  'locator_type':'xpath',
-                                  'locator_value':'//input[@id="name"]',
-                                  'timeout': 5 }
-        self.save_company_button = {'element_name':'保存公司修改按钮',
-                                  'locator_type':'xpath',
-                                  'locator_value':'//button[@id="submit"]',
-                                  'timeout': 5 }
+        # self.edit_company_button = {'element_name': '编辑公司按钮',
+        #                           'locator_type': 'xpath',
+        #                           'locator_value':'//a[@id="editCompany"]',
+        #                           'timeout': 4}
+        # self.iframe = {'element_name':'编辑公司的弹框的iframe',
+        #                           'locator_type':'xpath',
+        #                           'locator_value':'//iframe[@id="iframe-triggerModal"]',
+        #                           'timeout': 5 }
+        # #编辑公司弹框页面元素
+        # self.companyName_inputbox = {'element_name':'公司名称输入框',
+        #                           'locator_type':'xpath',
+        #                           'locator_value':'//input[@id="name"]',
+        #                           'timeout': 5 }
+        # self.save_company_button = {'element_name':'保存公司修改按钮',
+        #                           'locator_type':'xpath',
+        #                           'locator_value':'//button[@id="submit"]',
+        #                           'timeout': 5 }
+
+        elements = ElementDataUtils('company_page').get_element_info()
+        self.edit_company_button=elements['edit_company_button']
+        self.iframe=elements['iframe']
+        self.companyName_inputbox=elements['companyName_inputbox']
+        self.save_company_button=elements['save_company_button']
+
     def click_editCompany_button(self):
         self.click( self.edit_company_button )
 
@@ -34,7 +42,7 @@ class CompanyPage(BasePage):
         self.input( self.companyName_inputbox ,companyName )
 
     def switch_to_frame(self):
-        self.switchToFrame(self.edit_company_iframe)
+        self.switchToFrame(self.iframe)
 
     def clear_inputbox(self):
         self.clear( self.companyName_inputbox )
@@ -59,7 +67,7 @@ if __name__=="__main__":
     company_page.click_editCompany_button()
     company_page.switch_to_frame()
     company_page.clear_inputbox()
-    company_page.input_companyName_inputbox('第四组Pro')
+    company_page.input_companyName_inputbox('第四组')
     company_page.click_save()
 
 

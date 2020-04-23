@@ -4,7 +4,10 @@ from selenium.webdriver.common.by import By
 from common.log_utils import logger
 from common.base_page import BasePage
 from common.elements_data_utils import  ElementDataUtils
+from common.elements_yaml_utils import get_element_from_yaml
 
+current_path = os.path.dirname(__file__)
+yaml_date_path = os.path.join(current_path, '../element_info_data/element_infos_data.yaml')
 class LoginPage(BasePage):
     def __init__(self,driver):
         super().__init__(driver)
@@ -21,6 +24,7 @@ class LoginPage(BasePage):
         #                           'locator_value': 'submit',
         #                           'timeout': 2}
         elements=ElementDataUtils('login_page').get_element_info()
+        # elements=get_element_from_yaml(yaml_date_path)
         self.username_inputbox=elements['username_inputbox']
         self.password_inputbox = elements['password_inputbox']
         self.login_button = elements['login_button']

@@ -1,0 +1,15 @@
+username_inputbox:
+                  element_name: 用户名输入框
+                  locator_type: id
+                  locator_value: account
+                  timeout: 5
+password_inputbox:
+                  element_name: 密码输入框
+                  locator_type: name
+                  locator_value: password
+                  timeout: 5
+login_button:
+                  element_name: 登录按钮
+                  locator_type: id
+                  locator_value: submit
+                  timeout: 5

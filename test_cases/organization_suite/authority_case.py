@@ -14,19 +14,19 @@ class UserCases(unittest.TestCase):
               'admin','admin@123')
 
     def tearDown(self) -> None:
-        # self.driver.quit()
+        self.driver.quit()
         pass
     #添加分组
-    def test_add_goup(self):
-        organization_page = OrganizationPage(self.driver)
-        organization_page.click_organization_link()  # 点击一级菜单组织链接
-        organization_page.click_authority_link()  # 点击二级菜单用户链接
-        authority_page=AuthorityPage(self.driver)
-        authority_page.click_addGroup_button()
-        authority_page.switch_to_frame()
-        authority_page.input_groupName('测试一部主管')
-        authority_page.input_groupDescription('测试一部主管')
-        authority_page.click_save()
+    # def test_add_goup(self):
+    #     organization_page = OrganizationPage(self.driver)
+    #     organization_page.click_organization_link()  # 点击一级菜单组织链接
+    #     organization_page.click_authority_link()  # 点击二级菜单用户链接
+    #     authority_page=AuthorityPage(self.driver)
+    #     authority_page.click_addGroup_button()
+    #     authority_page.switch_to_frame()
+    #     authority_page.input_groupName('测试一主管')
+    #     authority_page.input_groupDescription('测试一主管')
+    #     authority_page.click_save()
     #编辑分组
     def test_add_goup(self):
         organization_page = OrganizationPage(self.driver)
