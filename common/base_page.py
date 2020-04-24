@@ -61,6 +61,13 @@ class BasePage(object):
         element.click()
         logger.info('[%s]元素进行点击操作'%element_info['element_name'])
 
+
+
+    def get_value(self,element_info,attribute):
+        element = self.find_element(element_info)
+        return element.get_attribute(attribute)
+        logger.info('获取[%s]的属性值'%element_info['element_name'])
+
     def input(self,element_info,content):
         element = self.find_element(element_info)
         element.send_keys(content)

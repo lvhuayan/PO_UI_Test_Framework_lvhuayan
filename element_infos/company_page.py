@@ -4,7 +4,7 @@ from selenium.webdriver.common.by import By
 from common.log_utils import logger
 from common.base_page import BasePage
 from element_infos.login_page import LoginPage
-from element_infos.organization_page import OrganizationPage
+from element_infos.user_page import OrganizationPage
 from common.elements_data_utils import ElementDataUtils
 #二级菜单公司页面元素
 

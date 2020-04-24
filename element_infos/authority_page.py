@@ -4,11 +4,12 @@ from selenium.webdriver.common.by import By
 from common.log_utils import logger
 from common.base_page import BasePage
 from element_infos.login_page import LoginPage
-from element_infos.organization_page import OrganizationPage
+from element_infos.user_page import OrganizationPage
 from common.elements_data_utils import ElementDataUtils
 #二级菜单权限页面元素
 
 class AuthorityPage(BasePage):
+    attribute_value=''
     def __init__(self,driver):
         super().__init__(driver)
         # self.addGroup_button = {'element_name': '新增分组按钮',
@@ -54,6 +55,10 @@ class AuthorityPage(BasePage):
 
     def input_groupName(self,groupName):
         self.input( self.groupName_inputbox ,groupName )
+
+    # def groupName_inputbox_value(self,attribute):
+    #     self.attribute_value=self.get_value(self.groupName_inputbox,attribute)
+
 
     def input_groupDescription(self,groupDescription):
         self.input( self.groupDescription_inputbox ,groupDescription )

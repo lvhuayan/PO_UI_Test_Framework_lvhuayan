@@ -7,7 +7,8 @@ from element_infos.login_page import LoginPage
 from common.elements_data_utils import ElementDataUtils
 
 #一级菜单 组织页面的元素
-class OrganizationPage(BasePage):
+class UserPage(BasePage):
+    username_value=''
     def __init__(self,driver):
         super().__init__(driver)
         # self.organization_link = {'element_name':'一级菜单-组织链接',
@@ -92,7 +93,7 @@ class OrganizationPage(BasePage):
         # #编辑用户按钮
         # self.edit_user_button = {'element_name': '编辑用户按钮',
         #                           'locator_type': 'xpath',
-        #                           'locator_value': '//a[@href="/zentao4/www/user-edit-2-company.html"]',
+        #                           'locator_value': '//a[@title="%s"]/../td[11]/a[1][@title="编辑用户"]',
         #                           'timeout': 4}
         # #删除用户按钮
         # self.delete_user_button = {'element_name': '删除用户按钮',
@@ -103,7 +104,7 @@ class OrganizationPage(BasePage):
         #                           'locator_type':'xpath',
         #                           'locator_value':'//iframe[@id="iframe-triggerModal"]',
         #                           'timeout': 5 }
-        elements=ElementDataUtils('organization_page').get_element_info()
+        elements=ElementDataUtils('user_page').get_element_info()
         self.organization_link=elements['organization_link']
         self.user_link=elements['user_link']
         self.department_link=elements['department_link']
@@ -162,6 +163,9 @@ class OrganizationPage(BasePage):
     def input_username(self,username):
         self.input(self.username_input,username)
 
+    def get_username_value(self,attribute):
+        self.username_value=self.get_value(self.username_input,attribute)
+
     def input_password(self,password):
         self.input(self.password_input,password)
 
@@ -193,6 +197,7 @@ class OrganizationPage(BasePage):
         self.clear( self.realname_input )
 
     def click_editUser_button(self):
+        self.edit_user_button['locator_value']=self.edit_user_button['locator_value']%self.username_value
         self.click( self.edit_user_button )
 
     def click_deleteUser_button(self):
@@ -213,26 +218,33 @@ if __name__=="__main__":
     login_page.input_password('admin@123')
     login_page.click_login()
 
-    organization_page=OrganizationPage(driver)
-    organization_page.click_organization_link() #点击一级菜单组织链接
-    organization_page.click_user_link()#点击二级菜单用户链接
-    organization_page.click_department_link()#点击二级菜单部门链接
-    organization_page.click_authority_link()#点击二级菜单权限链接
-    organization_page.click_company_link()#点击二级菜单公司链接
-    organization_page.click_dynamic_link()#点击二级菜单动态链接
+    user_page=UserPage(driver)
+    user_page.click_organization_link() #点击一级菜单组织链接
+    user_page.click_user_link()#点击二级菜单用户链接
+    # user_page.click_department_link()#点击二级菜单部门链接
+    # user_page.click_authority_link()#点击二级菜单权限链接
+    # user_page.click_company_link()#点击二级菜单公司链接
+    # user_page.click_dynamic_link()#点击二级菜单动态链接
 
-    # organization_page.click_addUser_button()
-    # organization_page.click_belongToDepartment_select()
-    # organization_page.click_belongToDepartment_value()
-    # organization_page.input_username('lvhuayan')
-    # organization_page.input_password('lvhuayan@123')
-    # organization_page.input_confirmPassword('lvhuayan@123')
-    # organization_page.input_realname('吕华艳')
-    # organization_page.click_position()
-    # organization_page.select_position_value('测试主管')
-    # organization_page.input_verifyPassword('admin@123')
-    # organization_page.click_save()
-    # organization_page.click_editUser_button()
+    user_page.click_addUser_button()
+    user_page.click_belongToDepartment_select()
+    user_page.click_belongToDepartment_value()
+    user_page.input_username('lvhuayan')
+    user_page.get_username_value('value')
+    user_page.input_password('lvhuayan@123')
+    user_page.input_confirmPassword('lvhuayan@123')
+    user_page.input_realname('吕华艳')
+    user_page.click_position()
+    user_page.select_position_value('测试主管')
+    user_page.input_verifyPassword('admin@123')
+    user_page.click_save()
+#编辑用户
+    user_page.click_editUser_button()
+    user_page.clear_inputbox()
+    user_page.input_realname('吕华艳艳')
+    user_page.scroll_IntoView()
+
+    user_page.click_save()
 
 
 

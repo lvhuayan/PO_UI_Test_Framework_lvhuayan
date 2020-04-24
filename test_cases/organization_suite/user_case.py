@@ -3,7 +3,7 @@ from selenium import  webdriver
 from common.base_page import BasePage
 from common.login import login
 from element_infos.login_page import LoginPage
-from element_infos.organization_page import OrganizationPage
+from element_infos.user_page import OrganizationPage
 
 
 class UserCases(unittest.TestCase):
@@ -15,7 +15,7 @@ class UserCases(unittest.TestCase):
     def tearDown(self) -> None:
         self.driver.quit()
     #验证链接可点击
-    def test_link_isNormal(self):
+    def test1_link_isNormal(self):
         organization_page = OrganizationPage(self.driver)
         organization_page.click_organization_link()  # 点击一级菜单组织链接
         organization_page.click_user_link()  # 点击二级菜单用户链接
@@ -42,7 +42,7 @@ class UserCases(unittest.TestCase):
         organization_page.click_save()
 
     # #添加已存在的用户
-    def test_addExistsUser(self):
+    def test2_addExistsUser(self):
         organization_page = OrganizationPage(self.driver)
         organization_page.click_organization_link()  # 点击一级菜单组织链接
         organization_page.click_user_link()  # 点击二级菜单用户链接
