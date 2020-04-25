@@ -1,0 +1,31 @@
+organization_link:
+                  element_name: 一级菜单-组织链接
+                  locator_type: xpath
+                  locator_value: //li[@data-id="company"]
+                  timeout: 5
+user_link:
+                  element_name: 二级菜单栏-用户链接
+                  locator_type: xpath
+                  locator_value: //li[@data-id="browseUser"]
+                  timeout: 5
+department_link:
+                  element_name: 二级菜单栏-部门链接
+                  locator_type: xpath
+                  locator_value: //li[@data-id="dept"]
+                  timeout: 5
+authority_link:
+                  element_name: 二级菜单栏-权限链接
+                  locator_type: xpath
+                  locator_value: //li[@data-id="browseGroup"]
+                  timeout: 5
+dynamic_link:
+                  element_name: 二级菜单栏-动态链接
+                  locator_type: xpath
+                  locator_value: //li[@data-id="dynamic"]
+                  timeout: 5
+company_link:
+                  element_name: 二级菜单栏-公司链接
+                  locator_type: xpath
+                  locator_value: //li[@data-id="view"]
+                  timeout: 5
+

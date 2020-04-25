@@ -1,0 +1,71 @@
+addUser_button:
+                  element_name: 添加用户按钮
+                  locator_type: xpath
+                  locator_value: //a[@href="/zentao4/www/user-create-0.html"]
+                  timeout: 5
+batchAddUser_button:
+                  element_name: 批量添加用户按钮
+                  locator_type: xpath
+                  locator_value: //a[@href="/zentao4/www/user-batchCreate-0.html"]
+                  timeout: 5
+belongToDepartment_select:
+                  element_name: 所属部门选项
+                  locator_type: id
+                  locator_value: dept_chosen
+                  timeout: 5
+belongToDepartment_value:
+                  element_name: 所属部门选项下拉值
+                  locator_type: xpath
+                  locator_value: //div[@id="dept_chosen"]/div/ul/li[@title="/测试部"]
+                  timeout: 5
+username_input:
+                  element_name: 用户名输入框
+                  locator_type: id
+                  locator_value: account
+                  timeout: 5
+password_input:
+                  element_name: 密码输入框
+                  locator_type: id
+                  locator_value: password1
+                  timeout: 5
+confirmPassword_input:
+                  element_name: 确认密码输入框
+                  locator_type: id
+                  locator_value: password2
+                  timeout: 5
+realname_input:
+                  element_name: 真实姓名输入框
+                  locator_type: id
+                  locator_value: realname
+                  timeout: 5
+position_input:
+                  element_name: 职位
+                  locator_type: id
+                  locator_value: role
+                  timeout: 5
+verifyPassword_input:
+                  element_name: 登录密码验证
+                  locator_type: id
+                  locator_value: verifyPassword
+                  timeout: 5
+save_user_button:
+                  element_name: 保存用户按钮
+                  locator_type: id
+                  locator_value: submit
+                  timeout: 5
+edit_user_button:
+                  element_name: 编辑用户按钮
+                  locator_type: xpath
+                  locator_value: //td[text()="%s"]/../td[11]/a[1]
+                  timeout: 5
+delete_user_button:
+                  element_name: 删除用户按钮
+                  locator_type: xpath
+                  locator_value: //td[text()="%s"]/../td[11]/a[2]
+                  timeout: 5
+iframe:
+                  element_name: iframe
+                  locator_type: id
+                  locator_value: iframe-triggerModal
+                  timeout: 5
+

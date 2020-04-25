@@ -1,0 +1,13 @@
+username_link:
+                  element_name: 登录用户名
+                  locator_type: xpath
+                  locator_value: //span[@class="user-name"]
+                  timeout: 5
+logout_button:
+                  element_name: 退出按钮
+                  locator_type: xpath
+                  locator_value: //a[contains(@href,"user-logout.html")]
+                  timeout: 5
+
+
+

@@ -7,7 +7,7 @@ from common.elements_data_utils import  ElementDataUtils
 from common.elements_yaml_utils import get_element_from_yaml
 
 current_path = os.path.dirname(__file__)
-yaml_date_path = os.path.join(current_path, '../element_info_data/element_infos_data.yaml')
+yaml_date_path = os.path.join(current_path, '../element_info_data/element_infos_login_page.yaml')
 class LoginPage(BasePage):
     def __init__(self,driver):
         super().__init__(driver)
@@ -23,12 +23,14 @@ class LoginPage(BasePage):
         #                           'locator_type': 'id',
         #                           'locator_value': 'submit',
         #                           'timeout': 2}
-        elements=ElementDataUtils('login_page').get_element_info()
-        # elements=get_element_from_yaml(yaml_date_path)
+        # 方式一：excel文件做数据源
+        # elements=ElementDataUtils('login_page').get_element_info()
+
+        # 方式二：yaml文件做数据源
+        elements=get_element_from_yaml(yaml_date_path)
         self.username_inputbox=elements['username_inputbox']
         self.password_inputbox = elements['password_inputbox']
         self.login_button = elements['login_button']
-
 
 
     def input_username(self,username): #方法 == 》控件的操作

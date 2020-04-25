@@ -1,0 +1,41 @@
+addGroup_button:
+                  element_name: 新增分组按钮
+                  locator_type: xpath
+                  locator_value: //a[@href="/zentao4/www/group-create.html?onlybody=yes"]
+                  timeout: 5
+iframe:
+                  element_name: 分组弹框的iframe
+                  locator_type: id
+                  locator_value: iframe-triggerModal
+                  timeout: 5
+groupName_inputbox:
+                  element_name: 分组名称输入框
+                  locator_type: id
+                  locator_value: name
+                  timeout: 5
+groupDescription_inputbox:
+                  element_name: 分组描述输入框
+                  locator_type: id
+                  locator_value: desc
+                  timeout: 5
+save_group_button:
+                  element_name: 保存按钮
+                  locator_type: id
+                  locator_value: submit
+                  timeout: 5
+edit_group_button:
+                  element_name: 编辑组按钮
+                  locator_type: xpath
+                  locator_value: //td[text()="%s"]/../td[5]/a[4]
+                  timeout: 5
+delete_group_button:
+                  element_name: 删除组按钮
+                  locator_type: xpath
+                  locator_value: //td[text()="%s"]/../td[5]/a[6]
+                  timeout: 5
+copy_group_button:
+                  element_name: 复制组按钮
+                  locator_type: xpath
+                  locator_value: //td[text()="%s"]/../td[5]/a[5]
+                  timeout: 5
+

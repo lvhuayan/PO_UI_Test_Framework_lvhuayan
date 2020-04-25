@@ -33,6 +33,20 @@ class BasePage(object):
         value = self.driver.title
         logger.info('获取网页标题，标题是%s'%value)
         return value
+
+    def scrollIntoView(self):
+        js_str='document.documentElement.scrollTop=100000;'# 浏览器滚动条下滑操作 js代码与浏览器兼容性
+        self.driver.execute_script(js_str)
+        time.sleep(2)
+        logger.info('浏览器下滑到底部操作')
+
+    def alert_accept(self):
+        alert = self.driver.switch_to.alert  # 切换到JS弹窗
+        alert.accept()  # 点击确定
+
+    def alert_dismiss(self):
+        alert = self.driver.switch_to.alert  # 切换到JS弹窗
+        alert.dismiss()  # 点击确定
     #.....
 
     #元素操作封装
@@ -72,21 +86,22 @@ class BasePage(object):
         element = self.find_element(element_info)
         element.send_keys(content)
         logger.info('[%s]元素输入内容：%s' %(element_info['element_name'],content))
+
     def switchToFrame(self,element_info):
         element = self.find_element(element_info)
         self.driver.switch_to.frame(element)
         logger.info('[%s]iframe跳转'%element_info['element_name'])
+
     def clear(self,element_info):
         element = self.find_element(element_info)
         element.clear()
         logger.info('[%s]元素进行输入框清除操作'%element_info['element_name'])
+
     def select(self,element_info,content):
         element = self.find_element(element_info)
         Select(element).select_by_visible_text(content)
         logger.info('[%s]元素进行下拉选择操作'%element_info['element_name'])
-    def scrollIntoView(self,element_info):#
-        element = self.find_element(element_info)
-        self.driver.execute_script('arguments[0].scrollIntoView();', element)  # 元素被挡住时下滑到此元素
+
 
 
 

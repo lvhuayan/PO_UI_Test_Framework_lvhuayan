@@ -1,21 +1,29 @@
 import  unittest
+import os
 from selenium import  webdriver
 from common.base_page import BasePage
 from common.login import login
+from common.logout import logout
 from element_infos.login_page import LoginPage
+from element_infos.user_page import UserPage
 from element_infos.user_page import OrganizationPage
 
-
 class UserCases(unittest.TestCase):
+    current_path = os.path.dirname(__file__)
+    driver_path = os.path.join(current_path, '../../webdriver/chromedriver.exe')
+    driver = webdriver.Chrome(executable_path=driver_path)
     def setUp(self) -> None:
-        self.driver = webdriver.Chrome()
         login(self.driver,'http://106.53.50.202:8999/zentao4/www/user-login-L3plbnRhbzYvd3d3Lw==.html',
               'admin','admin@123')
+        #跳转到用户页面
+        organization_page = OrganizationPage(self.driver)
+        organization_page.click_organization_link()  # 点击一级菜单组织链接
+        organization_page.click_user_link()  # 点击二级菜单用户链接
 
     def tearDown(self) -> None:
-        self.driver.quit()
+        logout(self.driver)
     #验证链接可点击
-    def test1_link_isNormal(self):
+    def test_link_isNormal(self):
         organization_page = OrganizationPage(self.driver)
         organization_page.click_organization_link()  # 点击一级菜单组织链接
         organization_page.click_user_link()  # 点击二级菜单用户链接
@@ -26,57 +34,89 @@ class UserCases(unittest.TestCase):
 
     #添加新用户
     def test_addUser(self):
-        organization_page = OrganizationPage(self.driver)
-        organization_page.click_organization_link()  # 点击一级菜单组织链接
-        organization_page.click_user_link()  # 点击二级菜单用户链接
-        organization_page.click_addUser_button()
-        organization_page.click_belongToDepartment_select()
-        organization_page.click_belongToDepartment_value()
-        organization_page.input_username('lvhuayan')
-        organization_page.input_password('lvhuayan@123')
-        organization_page.input_confirmPassword('lvhuayan@123')
-        organization_page.input_realname('吕华艳')
-        organization_page.click_position()
-        organization_page.select_position_value('测试主管')
-        organization_page.input_verifyPassword('admin@123')
-        organization_page.click_save()
+        #添加用户
+        user_page=UserPage(self.driver)
+        user_page.click_addUser_button()
+        user_page.click_belongToDepartment_select()
+        user_page.click_belongToDepartment_value()
+        user_page.input_username('lisa3')
+        user_page.input_password('lisa@123')
+        user_page.input_confirmPassword('lisa@123')
+        user_page.input_realname('李莎')
+        user_page.click_position()
+        user_page.select_position_value('测试主管')
+        user_page.input_verifyPassword('admin@123')
+        user_page.click_save()
 
-    # #添加已存在的用户
-    def test2_addExistsUser(self):
-        organization_page = OrganizationPage(self.driver)
-        organization_page.click_organization_link()  # 点击一级菜单组织链接
-        organization_page.click_user_link()  # 点击二级菜单用户链接
-        organization_page.click_addUser_button()
-        organization_page.click_belongToDepartment_select()
-        organization_page.click_belongToDepartment_value()
-        organization_page.input_username('lvhuayan')
-        organization_page.input_password('lvhuayan@123')
-        organization_page.input_confirmPassword('lvhuayan@123')
-        organization_page.input_realname('吕华艳')
-        organization_page.click_position()
-        organization_page.select_position_value('测试主管')
-        organization_page.input_verifyPassword('admin@123')
-        organization_page.click_save()
+    #添加已存在的用户
+    def test_addExistsUser(self):
+        #添加用户
+        user_page=UserPage(self.driver)
+        user_page.click_addUser_button()
+        user_page.click_belongToDepartment_select()
+        user_page.click_belongToDepartment_value()
+        user_page.input_username('lisa3')
+        user_page.input_password('lisa@123')
+        user_page.input_confirmPassword('lisa@123')
+        user_page.input_realname('李莎')
+        user_page.click_position()
+        user_page.select_position_value('测试主管')
+        user_page.input_verifyPassword('admin@123')
+        user_page.click_save()
+        user_page.refresh()
 
-    # #编辑用户
+    #新增用户-编辑用户
     def test_edit_user(self):
-        organization_page = OrganizationPage(self.driver)
-        organization_page.click_organization_link()  # 点击一级菜单组织链接
-        organization_page.click_user_link()  # 点击二级菜单用户链接
-        organization_page.click_editUser_button()
-        organization_page.clear_inputbox()
-        organization_page.input_realname('吕晓晓')
-        organization_page.scroll_IntoView()
-        organization_page.click_save()
-    #删除用户
+        user_page=UserPage(self.driver)
+        user_page.click_addUser_button()
+        user_page.click_belongToDepartment_select()
+        user_page.click_belongToDepartment_value()
+        user_page.input_username('lisa4')
+        user_page.get_username_value('value')
+        user_page.input_password('lisa@123')
+        user_page.input_confirmPassword('lisa@123')
+        user_page.input_realname('李莎')
+        user_page.click_position()
+        user_page.select_position_value('测试主管')
+        user_page.input_verifyPassword('admin@123')
+        user_page.click_save()
+        #编辑用户
+        user_page.click_editUser_button()
+        user_page.clear_inputbox()
+        user_page.input_realname('你妹')
+        user_page.scrollIntoView()
+        user_page.input_verifyPassword('admin@123')
+        user_page.click_save()
+
+    #新增-编辑-删除用户
     def test_delete_user(self):
-        organization_page = OrganizationPage(self.driver)
-        organization_page.click_organization_link()  # 点击一级菜单组织链接
-        organization_page.click_user_link()  # 点击二级菜单用户链接
-        organization_page.click_deleteUser_button()
-        organization_page.switch_to_frame()
-        organization_page.input_verifyPassword('admin@123')
-        organization_page.click_save()
+        #新增用户
+        user_page=UserPage(self.driver)
+        user_page.click_addUser_button()
+        user_page.click_belongToDepartment_select()
+        user_page.click_belongToDepartment_value()
+        user_page.input_username('lisa5')
+        user_page.get_username_value('value')
+        user_page.input_password('lisa@123')
+        user_page.input_confirmPassword('lisa@123')
+        user_page.input_realname('李莎')
+        user_page.click_position()
+        user_page.select_position_value('测试主管')
+        user_page.input_verifyPassword('admin@123')
+        user_page.click_save()
+        #编辑用户
+        user_page.click_editUser_button()
+        user_page.clear_inputbox()
+        user_page.input_realname('李梅')
+        user_page.scrollIntoView()
+        user_page.input_verifyPassword('admin@123')
+        user_page.click_save()
+        #删除用户
+        user_page.refresh()
+        user_page.click_deleteUser_button()
+        user_page.switch_to_frame()
+        user_page.input_verifyPassword('admin@123')
+        user_page.click_save()
 
 if __name__=='__main__':
     unittest.main()

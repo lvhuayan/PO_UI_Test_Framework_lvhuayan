@@ -1,0 +1,22 @@
+edit_company_button:
+                  element_name: 编辑公司按钮
+                  locator_type: id
+                  locator_value: editCompany
+                  timeout: 5
+iframe:
+                  element_name: iframe
+                  locator_type: id
+                  locator_value: iframe-triggerModal
+                  timeout: 5
+companyName_inputbox:
+                  element_name: 公司名称输入框
+                  locator_type: id
+                  locator_value: name
+                  timeout: 5
+save_company_button:
+                  element_name: 保存公司修改按钮
+                  locator_type: id
+                  locator_value: submit
+                  timeout: 5
+
+

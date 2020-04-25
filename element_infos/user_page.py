@@ -1,42 +1,20 @@
 import os
+import time
 from selenium import webdriver
-from selenium.webdriver.common.by import By
-from common.log_utils import logger
+from common.elements_yaml_utils import get_element_from_yaml
 from common.base_page import BasePage
 from element_infos.login_page import LoginPage
 from common.elements_data_utils import ElementDataUtils
+from element_infos.organization_page import OrganizationPage
 
-#一级菜单 组织页面的元素
+current_path = os.path.dirname(__file__)
+yaml_date_path = os.path.join(current_path, '../element_info_data/element_infos_user_page.yaml')
+
+#二级菜单 用户页面的元素
 class UserPage(BasePage):
     username_value=''
     def __init__(self,driver):
         super().__init__(driver)
-        # self.organization_link = {'element_name':'一级菜单-组织链接',
-        #                           'locator_type':'xpath',
-        #                           'locator_value':'//li[@data-id="company"]',
-        #                           'timeout': 5 }
-        # self.user_link = {'element_name':'二级菜单栏-用户链接',
-        #                           'locator_type':'xpath',
-        #                           'locator_value':'//li[@data-id="browseUser"]',
-        #                           'timeout': 5 }
-        # self.department_link = {'element_name':'二级菜单栏-部门链接',
-        #                           'locator_type':'xpath',
-        #                           'locator_value':'//li[@data-id="dept"]',
-        #                           'timeout': 5 }
-        # self.authority_link = {'element_name':'二级菜单栏-权限链接',
-        #                           'locator_type':'xpath',
-        #                           'locator_value':'//li[@data-id="browseGroup"]',
-        #                           'timeout': 5 }
-        # self.dynamic_link = {'element_name':'二级菜单栏-动态链接',
-        #                           'locator_type':'xpath',
-        #                           'locator_value':'//li[@data-id="dynamic"]',
-        #                           'timeout': 5 }
-        # self.company_link = {'element_name':'二级菜单栏-公司链接',
-        #                           'locator_type':'xpath',
-        #                           'locator_value':'//li[@data-id="view"]',
-        #                           'timeout': 5 }
-        #
-        #
         # self.addUser_button = {'element_name': '添加用户按钮',
         #                           'locator_type': 'xpath',
         #                           'locator_value':'//a[@href="/zentao4/www/user-create-0.html"]',
@@ -104,13 +82,11 @@ class UserPage(BasePage):
         #                           'locator_type':'xpath',
         #                           'locator_value':'//iframe[@id="iframe-triggerModal"]',
         #                           'timeout': 5 }
-        elements=ElementDataUtils('user_page').get_element_info()
-        self.organization_link=elements['organization_link']
-        self.user_link=elements['user_link']
-        self.department_link=elements['department_link']
-        self.authority_link=elements['authority_link']
-        self.dynamic_link=elements['dynamic_link']
-        self.company_link=elements['company_link']
+        # 方式一：excel文件做数据源
+        # elements = ElementDataUtils('user_page').get_element_info()
+
+        # 方式二：yaml文件做数据源
+        elements=get_element_from_yaml(yaml_date_path)
         self.addUser_button=elements['addUser_button']
         self.batchAddUser_button=elements['batchAddUser_button']
         self.belongToDepartment_select=elements['belongToDepartment_select']
@@ -126,24 +102,6 @@ class UserPage(BasePage):
         self.delete_user_button=elements['delete_user_button']
         self.iframe=elements['iframe']
 
-
-    def click_organization_link(self):
-        self.click( self.organization_link )
-
-    def click_user_link(self):
-        self.click( self.user_link )
-
-    def click_department_link(self):
-        self.click( self.department_link )
-
-    def click_authority_link(self):
-        self.click( self.authority_link )
-
-    def click_company_link(self):
-        self.click( self.company_link )
-
-    def click_dynamic_link(self):
-        self.click( self.dynamic_link )
 
     def click_addUser_button(self):
         self.click( self.addUser_button )
@@ -192,6 +150,7 @@ class UserPage(BasePage):
 
     def click_save(self):
         self.click(self.save_user_button)
+        time.sleep(2)
 
     def clear_inputbox(self):
         self.clear( self.realname_input )
@@ -201,10 +160,9 @@ class UserPage(BasePage):
         self.click( self.edit_user_button )
 
     def click_deleteUser_button(self):
+        self.delete_user_button['locator_value']=self.delete_user_button['locator_value']%self.username_value
         self.click( self.delete_user_button )
 
-    def scroll_IntoView(self):
-        self.scrollIntoView(self.save_user_button)
     def switch_to_frame(self):
         self.switchToFrame(self.iframe)
 
@@ -214,22 +172,20 @@ if __name__=="__main__":
     login_page =LoginPage(driver)
     login_page.open_url('http://106.53.50.202:8999/zentao4/www/user-login-L3plbnRhbzYvd3d3Lw==.html')
     login_page.set_browser_max()
+    #登录系统
     login_page.input_username('admin')
     login_page.input_password('admin@123')
     login_page.click_login()
-
+    #来到用户页面
+    organization_page=OrganizationPage(driver)
+    organization_page.click_organization_link() #点击一级菜单组织链接
+    organization_page.click_user_link()
+    #新增用户
     user_page=UserPage(driver)
-    user_page.click_organization_link() #点击一级菜单组织链接
-    user_page.click_user_link()#点击二级菜单用户链接
-    # user_page.click_department_link()#点击二级菜单部门链接
-    # user_page.click_authority_link()#点击二级菜单权限链接
-    # user_page.click_company_link()#点击二级菜单公司链接
-    # user_page.click_dynamic_link()#点击二级菜单动态链接
-
     user_page.click_addUser_button()
     user_page.click_belongToDepartment_select()
     user_page.click_belongToDepartment_value()
-    user_page.input_username('lvhuayan')
+    user_page.input_username('lvhuayan16')
     user_page.get_username_value('value')
     user_page.input_password('lvhuayan@123')
     user_page.input_confirmPassword('lvhuayan@123')
@@ -238,12 +194,18 @@ if __name__=="__main__":
     user_page.select_position_value('测试主管')
     user_page.input_verifyPassword('admin@123')
     user_page.click_save()
-#编辑用户
+    #编辑用户
     user_page.click_editUser_button()
     user_page.clear_inputbox()
     user_page.input_realname('吕华艳艳')
-    user_page.scroll_IntoView()
-
+    user_page.scrollIntoView()
+    user_page.input_verifyPassword('admin@123')
+    user_page.click_save()
+    #删除用户
+    user_page.refresh()
+    user_page.click_deleteUser_button()
+    user_page.switch_to_frame()
+    user_page.input_verifyPassword('admin@123')
     user_page.click_save()
 
 
