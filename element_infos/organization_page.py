@@ -4,6 +4,8 @@ from common.elements_yaml_utils import get_element_from_yaml
 from common.base_page import BasePage
 from element_infos.login_page import LoginPage
 from common.elements_data_utils import ElementDataUtils
+from common.browser import Browser
+from common.config_utils import local_config
 
 #一级菜单 组织页面的元素
 current_path = os.path.dirname(__file__)
@@ -37,10 +39,10 @@ class OrganizationPage(BasePage):
         #                           'locator_value':'//li[@data-id="view"]',
         #                           'timeout': 5 }
         # 方式一：excel文件做数据源
-        # elements=ElementDataUtils('organization_page').get_element_info()
+        elements=ElementDataUtils('organization_page').get_element_info()
 
         # 方式二：yaml文件做数据源
-        elements = get_element_from_yaml(yaml_date_path)
+        # elements = get_element_from_yaml(yaml_date_path)
         self.organization_link=elements['organization_link']
         self.user_link=elements['user_link']
         self.department_link=elements['department_link']
@@ -67,9 +69,16 @@ class OrganizationPage(BasePage):
         self.click(self.dynamic_link)
 
 if __name__=="__main__":
-    driver = webdriver.Chrome()
+    # current_path = os.path.dirname(__file__)
+    # driver_path = os.path.join(current_path,'../webdriver/chromedriver.exe')
+    # driver = webdriver.Chrome(executable_path=driver_path)
+
+    driver = Browser().get_chrome_driver()
+    url = local_config.url
+
     login_page =LoginPage(driver)
-    login_page.open_url('http://106.53.50.202:8999/zentao4/www/user-login-L3plbnRhbzYvd3d3Lw==.html')
+    # login_page.open_url('http://106.53.50.202:8999/zentao4/www/user-login-L3plbnRhbzYvd3d3Lw==.html')
+    login_page.open_url(url)
     login_page.set_browser_max()
     #登录
     login_page.input_username('admin')

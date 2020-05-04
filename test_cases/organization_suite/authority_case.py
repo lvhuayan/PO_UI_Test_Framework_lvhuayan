@@ -1,6 +1,9 @@
 import os
 import  unittest
 from selenium import  webdriver
+
+from common.browser import Browser
+from common.config_utils import local_config
 from common.login import login
 from common.logout import logout
 from element_infos.user_page import OrganizationPage
@@ -10,11 +13,10 @@ current_path = os.path.dirname(__file__)
 yaml_date_path = os.path.join(current_path, '../element_info_data/element_infos_login_page.yaml')
 
 class UserCases(unittest.TestCase):
-    current_path = os.path.dirname(__file__)
-    driver_path = os.path.join(current_path, '../../webdriver/chromedriver.exe')
-    driver = webdriver.Chrome(executable_path=driver_path)
+    driver =Browser().get_chrome_driver()
+    url=local_config.url
     def setUp(self) -> None:
-        login(self.driver,'http://106.53.50.202:8999/zentao4/www/user-login-L3plbnRhbzYvd3d3Lw==.html',
+        login(self.driver,self.url,
               'admin','admin@123')
         # 进入到权限页面
         organization_page = OrganizationPage(self.driver)
@@ -44,7 +46,7 @@ class UserCases(unittest.TestCase):
         authority_page.click_save()
         # 编辑分组
         authority_page.refresh()
-        authority_page.scrollIntoView()
+        authority_page.scrollToBottom()
         authority_page.click_editGroup()
         authority_page.switch_to_frame()
         authority_page.clear(authority_page.groupDescription_inputbox)
@@ -62,7 +64,7 @@ class UserCases(unittest.TestCase):
         authority_page.click_save()
         # 删除分组
         authority_page.refresh()
-        authority_page.scrollIntoView()
+        authority_page.scrollToBottom()
         authority_page.click_deleteGroup()
         authority_page.alert_accept()
     # 新增-复制分组
@@ -77,7 +79,7 @@ class UserCases(unittest.TestCase):
         authority.click_save()
         authority.refresh()
         # 复制分组
-        authority.scrollIntoView()
+        authority.scrollToBottom()
         authority.click_copy_group()
         authority.switch_to_frame()
         authority.clear(authority.groupName_inputbox)

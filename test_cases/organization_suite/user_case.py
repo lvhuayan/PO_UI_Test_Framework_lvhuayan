@@ -7,13 +7,14 @@ from common.logout import logout
 from element_infos.login_page import LoginPage
 from element_infos.user_page import UserPage
 from element_infos.user_page import OrganizationPage
+from common.browser import Browser
+from common.config_utils import local_config
 
 class UserCases(unittest.TestCase):
-    current_path = os.path.dirname(__file__)
-    driver_path = os.path.join(current_path, '../../webdriver/chromedriver.exe')
-    driver = webdriver.Chrome(executable_path=driver_path)
+    driver =Browser().get_chrome_driver()
+    url=local_config.url
     def setUp(self) -> None:
-        login(self.driver,'http://106.53.50.202:8999/zentao4/www/user-login-L3plbnRhbzYvd3d3Lw==.html',
+        login(self.driver,self.url,
               'admin','admin@123')
         #跳转到用户页面
         organization_page = OrganizationPage(self.driver)
@@ -82,9 +83,9 @@ class UserCases(unittest.TestCase):
         user_page.click_save()
         #编辑用户
         user_page.click_editUser_button()
-        user_page.clear_inputbox()
+        user_page.clear_realname_inputbox()
         user_page.input_realname('你妹')
-        user_page.scrollIntoView()
+        user_page.scroll_Into_View()
         user_page.input_verifyPassword('admin@123')
         user_page.click_save()
 
@@ -106,9 +107,9 @@ class UserCases(unittest.TestCase):
         user_page.click_save()
         #编辑用户
         user_page.click_editUser_button()
-        user_page.clear_inputbox()
+        user_page.clear_realname_inputbox()
         user_page.input_realname('李梅')
-        user_page.scrollIntoView()
+        user_page.scroll_Into_View()
         user_page.input_verifyPassword('admin@123')
         user_page.click_save()
         #删除用户

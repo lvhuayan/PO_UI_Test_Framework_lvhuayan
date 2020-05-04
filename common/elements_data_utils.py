@@ -15,9 +15,10 @@ class ElementDataUtils:
         for i in range(1,self.rows):
             element_info={}
             element_info['element_name']=self.sheet.cell_value(i,1)
-            element_info['locator_type'] = self.sheet.cell_value(i, 2)
-            element_info['locator_value'] = self.sheet.cell_value(i, 3)
-            element_info['timeout'] = self.sheet.cell_value(i, 4)
+            element_info['belongto_page'] = self.sheet.cell_value(i, 2)
+            element_info['locator_type'] = self.sheet.cell_value(i, 3)
+            element_info['locator_value'] = self.sheet.cell_value(i, 4)
+            element_info['timeout'] = self.sheet.cell_value(i, 5)
             elements_info[self.sheet.cell_value(i,0)]=element_info
         return elements_info
 if __name__=='__main__':

@@ -1,6 +1,9 @@
 import os
 import  unittest
 from selenium import  webdriver
+
+from common.browser import Browser
+from common.config_utils import local_config
 from common.login import login
 from common.logout import logout
 from element_infos.user_page import OrganizationPage
@@ -8,11 +11,10 @@ from element_infos.company_page import CompanyPage
 
 
 class CompanyCases(unittest.TestCase):
-    current_path = os.path.dirname(__file__)
-    driver_path = os.path.join(current_path, '../../webdriver/chromedriver.exe')
-    driver = webdriver.Chrome(executable_path=driver_path)
+    driver =Browser().get_chrome_driver()
+    url=local_config.url
     def setUp(self) -> None:
-        login(self.driver,'http://106.53.50.202:8999/zentao4/www/user-login-L3plbnRhbzYvd3d3Lw==.html',
+        login(self.driver,self.url,
               'admin','admin@123')
         # 跳转到公司页面
         organization_page = OrganizationPage(self.driver)

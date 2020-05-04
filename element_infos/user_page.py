@@ -6,6 +6,8 @@ from common.base_page import BasePage
 from element_infos.login_page import LoginPage
 from common.elements_data_utils import ElementDataUtils
 from element_infos.organization_page import OrganizationPage
+from common.browser import Browser
+from common.config_utils import local_config
 
 current_path = os.path.dirname(__file__)
 yaml_date_path = os.path.join(current_path, '../element_info_data/element_infos_user_page.yaml')
@@ -152,7 +154,7 @@ class UserPage(BasePage):
         self.click(self.save_user_button)
         time.sleep(2)
 
-    def clear_inputbox(self):
+    def clear_realname_inputbox(self):
         self.clear( self.realname_input )
 
     def click_editUser_button(self):
@@ -166,11 +168,20 @@ class UserPage(BasePage):
     def switch_to_frame(self):
         self.switchToFrame(self.iframe)
 
+    def scroll_Into_View(self):
+        self.scrollIntoView(self.save_user_button)
+
 
 if __name__=="__main__":
-    driver = webdriver.Chrome()
+    # current_path = os.path.dirname(__file__)
+    # driver_path = os.path.join(current_path,'../webdriver/chromedriver.exe')
+    # driver = webdriver.Chrome(executable_path=driver_path)
+    driver = Browser().get_chrome_driver()
+    url = local_config.url
+
     login_page =LoginPage(driver)
-    login_page.open_url('http://106.53.50.202:8999/zentao4/www/user-login-L3plbnRhbzYvd3d3Lw==.html')
+    # login_page.open_url('http://106.53.50.202:8999/zentao4/www/user-login-L3plbnRhbzYvd3d3Lw==.html')
+    login_page.open_url(url)
     login_page.set_browser_max()
     #登录系统
     login_page.input_username('admin')
@@ -185,7 +196,7 @@ if __name__=="__main__":
     user_page.click_addUser_button()
     user_page.click_belongToDepartment_select()
     user_page.click_belongToDepartment_value()
-    user_page.input_username('lvhuayan16')
+    user_page.input_username('lvhuayan18')
     user_page.get_username_value('value')
     user_page.input_password('lvhuayan@123')
     user_page.input_confirmPassword('lvhuayan@123')
@@ -196,9 +207,9 @@ if __name__=="__main__":
     user_page.click_save()
     #编辑用户
     user_page.click_editUser_button()
-    user_page.clear_inputbox()
-    user_page.input_realname('吕华艳艳')
-    user_page.scrollIntoView()
+    user_page.clear_realname_inputbox()
+    user_page.input_realname('吕华艳111')
+    user_page.scroll_Into_View()
     user_page.input_verifyPassword('admin@123')
     user_page.click_save()
     #删除用户

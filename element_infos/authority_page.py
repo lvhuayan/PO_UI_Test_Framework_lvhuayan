@@ -5,6 +5,8 @@ from common.base_page import BasePage
 from element_infos.login_page import LoginPage
 from element_infos.user_page import OrganizationPage
 from common.elements_data_utils import ElementDataUtils
+from common.browser import Browser
+from common.config_utils import local_config
 
 current_path = os.path.dirname(__file__)
 yaml_date_path = os.path.join(current_path, '../element_info_data/element_infos_authority_page.yaml')
@@ -43,10 +45,10 @@ class AuthorityPage(BasePage):
         #                           'timeout': 2}
 
         # 方式一：excel文件做数据源
-        # elements = ElementDataUtils('authority_page').get_element_info()
+        elements = ElementDataUtils('authority_page').get_element_info()
 
         # 方式二：yaml文件做数据源
-        elements=get_element_from_yaml(yaml_date_path)
+        # elements=get_element_from_yaml(yaml_date_path)
         self.addGroup_button=elements['addGroup_button']
         self.iframe=elements['iframe']
         self.groupName_inputbox=elements['groupName_inputbox']
@@ -87,12 +89,15 @@ class AuthorityPage(BasePage):
         self.click(self.copy_group_button)
 
 if __name__=="__main__":
-    current_path = os.path.dirname(__file__)
-    driver_path = os.path.join(current_path,'../webdriver/chromedriver.exe')
-    driver = webdriver.Chrome(executable_path=driver_path)
+    # current_path = os.path.dirname(__file__)
+    # driver_path = os.path.join(current_path,'../webdriver/chromedriver.exe')
+    # driver = webdriver.Chrome(executable_path=driver_path)
+    driver=Browser().get_chrome_driver()
+    url = local_config.url
     #登录
     login_page =LoginPage(driver)
-    login_page.open_url('http://106.53.50.202:8999/zentao4/www/user-login-L3plbnRhbzYvd3d3Lw==.html')
+    # login_page.open_url('http://106.53.50.202:8999/zentao4/www/user-login-L3plbnRhbzYvd3d3Lw==.html')
+    login_page.open_url(url)
     login_page.set_browser_max()
     login_page.input_username('admin')
     login_page.input_password('admin@123')
@@ -105,32 +110,32 @@ if __name__=="__main__":
     #新增分组
     authority.click_addGroup_button()
     authority.switch_to_frame()
-    authority.input_groupName('测试一部组4')
+    authority.input_groupName('测试一部组5')
     authority.get_groupName('value')
-    authority.input_groupDescription('测试一部组4')
+    authority.input_groupDescription('测试一部组5')
     authority.click_save()
     authority.refresh()
-    # # 复制分组
-    # authority.scrollIntoView()
-    # authority.click_copy_group()
-    # authority.switch_to_frame()
-    # authority.clear(authority.groupName_inputbox)
-    # authority.input_groupName('测试一部组5')
-    # authority.clear(authority.groupDescription_inputbox)
-    # authority.input_groupDescription('测试一部组5')
-    # authority.click_save()
+    # 复制分组
+    authority.scrollToBottom()
+    authority.click_copy_group()
+    authority.switch_to_frame()
+    authority.clear(authority.groupName_inputbox)
+    authority.input_groupName('测试一部组6')
+    authority.clear(authority.groupDescription_inputbox)
+    authority.input_groupDescription('测试一部组6')
+    authority.click_save()
 
-    # #编辑分组
-    # authority.refresh()
-    # authority.scrollIntoView()
-    # authority.click_editGroup()
-    # authority.switch_to_frame()
-    # authority.clear(authority.groupDescription_inputbox)
-    # authority.input_groupDescription('测试一部组44')
-    # authority.click_save()
+    #编辑分组
+    authority.refresh()
+    authority.scrollToBottom()
+    authority.click_editGroup()
+    authority.switch_to_frame()
+    authority.clear(authority.groupDescription_inputbox)
+    authority.input_groupDescription('测试一部组44')
+    authority.click_save()
     #删除分组
     authority.refresh()
-    authority.scrollIntoView()
+    authority.scrollToBottom()
     authority.click_deleteGroup()
     authority.alert_accept()
 
