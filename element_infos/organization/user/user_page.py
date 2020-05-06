@@ -1,11 +1,9 @@
 import os
 import time
-from selenium import webdriver
 from common.elements_yaml_utils import get_element_from_yaml
 from common.base_page import BasePage
-from element_infos.login_page import LoginPage
-from common.elements_data_utils import ElementDataUtils
-from element_infos.organization_page import OrganizationPage
+from element_infos.login.login_page import LoginPage
+from element_infos.organization.organization_page import OrganizationPage
 from common.browser import Browser
 from common.config_utils import local_config
 

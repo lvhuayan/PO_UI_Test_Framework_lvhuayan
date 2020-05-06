@@ -1,8 +1,6 @@
 import os
-from selenium import webdriver
-from common.elements_yaml_utils import get_element_from_yaml
 from common.base_page import BasePage
-from element_infos.login_page import LoginPage
+from element_infos.login.login_page import LoginPage
 from common.elements_data_utils import ElementDataUtils
 from common.browser import Browser
 from common.config_utils import local_config

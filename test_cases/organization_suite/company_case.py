@@ -1,13 +1,11 @@
-import os
 import  unittest
-from selenium import  webdriver
 
 from common.browser import Browser
 from common.config_utils import local_config
 from common.login import login
 from common.logout import logout
-from element_infos.user_page import OrganizationPage
-from element_infos.company_page import CompanyPage
+from element_infos.organization.user.user_page import OrganizationPage
+from element_infos.organization.company_page import CompanyPage
 
 
 class CompanyCases(unittest.TestCase):

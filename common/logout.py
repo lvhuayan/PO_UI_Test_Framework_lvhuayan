@@ -1,4 +1,4 @@
-from element_infos.logout_page import LogoutPage
+from element_infos.logout.logout_page import LogoutPage
 
 def logout(driver):
     logout_page = LogoutPage(driver)

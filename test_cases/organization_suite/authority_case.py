@@ -1,13 +1,12 @@
 import os
 import  unittest
-from selenium import  webdriver
 
 from common.browser import Browser
 from common.config_utils import local_config
 from common.login import login
 from common.logout import logout
-from element_infos.user_page import OrganizationPage
-from element_infos.authority_page import AuthorityPage
+from element_infos.organization.user.user_page import OrganizationPage
+from element_infos.organization.authority_page import AuthorityPage
 
 current_path = os.path.dirname(__file__)
 yaml_date_path = os.path.join(current_path, '../element_info_data/element_infos_login_page.yaml')

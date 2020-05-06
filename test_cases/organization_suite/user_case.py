@@ -1,12 +1,8 @@
 import  unittest
-import os
-from selenium import  webdriver
-from common.base_page import BasePage
 from common.login import login
 from common.logout import logout
-from element_infos.login_page import LoginPage
-from element_infos.user_page import UserPage
-from element_infos.user_page import OrganizationPage
+from element_infos.organization.user.user_page import UserPage
+from element_infos.organization.user.user_page import OrganizationPage
 from common.browser import Browser
 from common.config_utils import local_config
 

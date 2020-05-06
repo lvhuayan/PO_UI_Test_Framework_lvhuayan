@@ -7,12 +7,13 @@ from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.keys import Keys
+from common.config_utils import local_config
 
 from common.log_utils import logger
 
 class BasePage(object):
     def __init__(self,driver):
-        self.driver = driver
+        self.driver =webdriver.Chrome()  #driver
 
     # 浏览器操作封装 -- > 二次封装
     def open_url(self,url):
@@ -35,6 +36,14 @@ class BasePage(object):
         value = self.driver.title
         logger.info('获取网页标题，标题是%s'%value)
         return value
+
+    def wait(self,seconds=local_config.time_out):
+        time.sleep(seconds)
+        logger.info('固定等待【%s】秒'%seconds)
+
+    def implicitly_wait(self,seconds=local_config.time_out):
+        self.driver.implicitly_wait(seconds)
+        logger.info('隐式等待【%s】秒'%seconds)
 
     #.....
 
@@ -82,12 +91,12 @@ class BasePage(object):
     def scrollIntoView(self,element_info):
         element = self.find_element(element_info)
         self.driver.execute_script('arguments[0].scrollIntoView();', element)
-        time.sleep(2)
+        self.wait(2)
         logger.info('浏览器滚动到元素【%s】的位置'%element_info['element_name'])
 
     def scrollToBottom(self):
         self.driver.execute_script('document.documentElement.scrollTop=100000;')# 浏览器滚动条下滑操作到底部
-        time.sleep(2)
+        self.wait()
         logger.info('浏览器下滑到底部操作')
 
 
