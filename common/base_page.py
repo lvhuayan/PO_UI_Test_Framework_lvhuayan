@@ -111,21 +111,16 @@ class BasePage(object):
         Select(element).select_by_visible_text(content)
         logger.info('[%s]元素进行下拉选择操作'%element_info['element_name'])
 
-    def switch_to_alert(self):
+    def switch_to_alert(self,actions='accept',time_out=local_config.time_out):
+        WebDriverWait(self.driver,time_out).until(EC.alert_is_present())
         alert=self.driver.switch_to.alert
-        return alert
+        alert_text=alert.text
+        if actions=='accept':
+            alert.accept()
+        elif actions=='dismiss':
+            alert.dismiss()
+        return alert_text
 
-    def alert_sendkeys(self,content):
-        self.switch_to_alert().sendkeys(content)  # 切换到JS弹窗，弹框中输入内容
-        logger.info('切换到弹窗，输入内容%s' % content)
-
-    def alert_accept(self):
-        self.switch_to_alert().accept()  #切换到JS弹窗，点击确定
-        logger.info('切换到弹窗，点击确定')
-
-    def alert_dismiss(self):
-        self.switch_to_alert().dismiss()  # 切换到JS弹窗，点击取消
-        logger.info('切换到弹窗，点击取消')
 
     #selenium执行js代码
     def execute_script(self,js_str,element_info=None):
@@ -146,6 +141,15 @@ class BasePage(object):
         self.execute_script('arguments[0].setAttribute("%s","%s");'%(attribute_name,attribute_value),element)
         logger.info('[%s]元素进行属性设置操作' % element_info['element_name'])
 
+    # 鼠标键盘封装
+    def move_to_elements(self,element_info):
+        element = self.find_element(element_info)
+        ActionChains(self.driver).move_to_element(element).perform()
+
+    def long_press_element(self,element_info,senconds):
+        element = self.find_element(element_info)
+        ActionChains(self.driver).click_and_hold(element).pause(senconds).release(element)
+
     def ctrl_v(self,element_info):
         element = self.find_element(element_info)
         element.send_keys(Keys.CONTROL,'v')
@@ -157,10 +161,10 @@ class BasePage(object):
         logger.info('获取当前窗口的句柄')
 
 
-    def switch_to_handle(self,titleName):
+    def switch_to_window_by_titleName(self,titleName):
         for handle in self.driver.window_handles:
-            self.driver.switch_to.window(handle)
             if self.driver.title.__contains__(titleName):
+                self.driver.switch_to.window(handle)
                 break
         logger.info('切换句柄')
 
