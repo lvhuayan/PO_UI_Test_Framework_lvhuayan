@@ -1,10 +1,13 @@
 import time
 from selenium.webdriver.common.by import By
+
+from common.base_page import BasePage
 from element_infos.login.login_page import LoginPage
 from common.log_utils import logger
 
-class MainPage(object):
-    def __init__(self):
+class MainPage(BasePage):
+    def __init__(self,driver):
+        super().__init__(driver)
         login_page = LoginPage()
         login_page.input_username('test01')
         login_page.input_password('newdream123')

@@ -37,6 +37,15 @@ class BasePage(object):
         logger.info('获取网页标题，标题是%s'%value)
         return value
 
+    def close_tab(self):
+        self.driver.close()
+        logger.info('关闭网页')
+
+    def quit_browse(self):
+        self.driver.quit()
+        logger.info('退出网页')
+
+
     def wait(self,seconds=local_config.time_out):
         time.sleep(seconds)
         logger.info('固定等待【%s】秒'%seconds)
@@ -120,6 +129,7 @@ class BasePage(object):
         elif actions=='dismiss':
             alert.dismiss()
         return alert_text
+        logger.info('弹框内容是：%s'%alert_text)
 
 
     #selenium执行js代码
@@ -156,17 +166,38 @@ class BasePage(object):
         logger.info('在元素[%s]上进行ctrl+v粘贴操作'%element_info['element_name'])
 
     def get_current_handle(self):
-        handle = self.driver.current_window_handle
-        return handle
+        return self.driver.current_window_handle
         logger.info('获取当前窗口的句柄')
+
+    def switch_to_window(self,handle):
+        self.driver.switch_to.window(handle)
+        logger.info('根据句柄[%s]切换window'%handle)
 
 
     def switch_to_window_by_titleName(self,titleName):
         for handle in self.driver.window_handles:
-            if self.driver.title.__contains__(titleName):
+            if WebDriverWait(self.driver,local_config.time_out).until(EC.title_contains(titleName)):
                 self.driver.switch_to.window(handle)
                 break
-        logger.info('切换句柄')
+        logger.info('根据当前页面title包含[%s]切换句柄'%titleName)
+
+    def switch_to_window_by_url(self,url):
+        for handle in self.driver.window_handles:
+            if WebDriverWait(self.driver,local_config.time_out).until(EC.url_contains(url)):
+                self.driver.switch_to.window(handle)
+                break
+        logger.info('根据当前页面url包含[%s]切换句柄'%url)
+
+    def screenshot_asfile(self,*screen_path):
+        current_path=os.path.dirname(__file__)
+        if len(screen_path)==0:
+            screenshot_filepath=local_config.screenshot_path
+        else:
+            screenshot_filepath=screen_path[0]
+        now=time.strftime('%Y-%m-%d-%H-%M-%S')
+        screenshot_filepath=os.path.join(current_path,'..',screenshot_filepath,'screentshot_%s.png'%now)
+        self.driver.get_screenshot_as_file(screenshot_filepath)
+
 
 
 

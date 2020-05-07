@@ -29,8 +29,24 @@ class ConfigUtils(object):
         time_out_value =float(self.cfg.get('default','time_out'))
         return time_out_value
 
+    @property
+    def screenshot_path(self):
+        screenshot_path_value =self.cfg.get('default','screenshot_path')
+        return screenshot_path_value
+
+    @property
+    def username(self):
+        username_value =self.cfg.get('default','username')
+        return username_value
+
+    @property
+    def password(self):
+        password_value =self.cfg.get('default','password')
+        return password_value
+
 local_config=ConfigUtils()
+
 
 if __name__=='__main__':
    config= ConfigUtils()
-   print(type(config.time_out ))
+   print(config.password)
