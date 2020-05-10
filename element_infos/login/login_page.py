@@ -37,13 +37,13 @@ class LoginPage(BasePage):
 
 
     def input_username(self,username): #方法 == 》控件的操作
-        self.input( self.username_inputbox ,username )
+        self.input(self.username_inputbox,username)
 
     def input_password(self,password):
-        self.input( self.password_inputbox ,password )
+        self.input(self.password_inputbox,password)
 
     def click_login(self):
-        self.click( self.login_button )
+        self.click(self.login_button)
 
     def get_login_fail_alert_content(self):
             return self.switch_to_alert()

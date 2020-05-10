@@ -1,5 +1,3 @@
-from common.base_page import BasePage
-from common.browser import Browser
 from common.config_utils import local_config
 from element_infos.login.login_page import LoginPage
 from element_infos.main.main_page import MainPage
@@ -27,10 +25,10 @@ class LoginActions():
     def login_by_cookie(self):
         pass
 
-if __name__=='__main__':
-    driver=Browser().get_chrome_driver()
-    url = local_config.url
-    login_actions=LoginActions(driver)
-    BasePage(driver).open_url(url)
-    BasePage(driver).set_browser_max()
-    login_actions.default_login()
+# if __name__=='__main__':
+    # driver=Browser().get_chrome_driver()
+    # url = local_config.url
+    # login_actions=LoginActions(driver)
+    # BasePage(driver).open_url(url)
+    # BasePage(driver).set_browser_max()
+    # login_actions.default_login()

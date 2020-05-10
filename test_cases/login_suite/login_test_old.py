@@ -3,17 +3,19 @@ from common.base_page import BasePage
 from common.config_utils import local_config
 from common.browser import Browser
 from actions.login_action import LoginActions
-from common.selenium_base_page import SeleniumBasePage
 
-class LoginTest(SeleniumBasePage):
-
+class LoginTest(unittest.TestCase):
     def setUp(self) -> None:
-        '''
-        该模块特有的setup内容，先要继承seleniumbasepage父类的setup然后在此处写特有内容
-        :return:
-        '''
-        super().setUp()
-        print('该测试模块独有的setup内容需要先继承seleniumbasepage的setup方法然后再写独有的内容')
+        self.driver=Browser().get_driver()
+        self.base_page=BasePage(self.driver)
+        self.base_page.set_browser_max()
+        self.base_page.implicitly_wait()
+        self.base_page.open_url(local_config.url)
+
+
+    def tearDown(self) -> None:
+        self.base_page.close_tab()
+
 
     def test_login_success(self):
         loginaction=LoginActions(self.driver)
@@ -24,6 +26,7 @@ class LoginTest(SeleniumBasePage):
     def test_login_fail(self):
         loginaction=LoginActions(self.driver)
         actual_result=loginaction.login_fail('admin','admin')
+        print(actual_result)
         self.assertEqual(actual_result, '登录失败，请检查您的用户名或密码是否填写正确。', 'test_login_fail用例执行失败')
 
 

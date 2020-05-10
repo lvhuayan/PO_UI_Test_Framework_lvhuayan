@@ -13,7 +13,7 @@ from common.log_utils import logger
 
 class BasePage(object):
     def __init__(self,driver):
-        self.driver =webdriver.Chrome()  #driver
+        self.driver =driver #webdriver.Chrome()
 
     # 浏览器操作封装 -- > 二次封装
     def open_url(self,url):
@@ -59,6 +59,11 @@ class BasePage(object):
     #元素操作封装
     # element_info = {'element_name':'用户名输入框','locator_type':'xpath','locator_value':'//input[@name="account"]','timeout': 5 }
     def find_element(self,element_info):
+        '''
+        根据元素参数信息查找元素
+        :param element_info:元素信息 字典类型{'':'','':''}
+        :return:element对象
+        '''
         locator_type_name = element_info['locator_type']
         locator_value_info = element_info['locator_value']
         locator_timeout = element_info['timeout']
@@ -91,6 +96,10 @@ class BasePage(object):
         element = self.find_element(element_info)
         element.send_keys(content)
         logger.info('[%s]元素输入内容：%s' %(element_info['element_name'],content))
+        
+    def get_text(self,element_info):
+        element = self.find_element(element_info)
+        return  element.text
 
     def switchToFrame(self,element_info):
         element = self.find_element(element_info)
@@ -153,10 +162,21 @@ class BasePage(object):
 
     # 鼠标键盘封装
     def move_to_elements(self,element_info):
+        '''
+        鼠标键盘操作：移动到元素上
+        :param element_info: 元素信息
+        :return:
+        '''
         element = self.find_element(element_info)
         ActionChains(self.driver).move_to_element(element).perform()
 
     def long_press_element(self,element_info,senconds):
+        '''
+        鼠标键盘操作：长按某个元素
+        :param element_info: 元素信息
+        :param senconds:
+        :return:
+        '''
         element = self.find_element(element_info)
         ActionChains(self.driver).click_and_hold(element).pause(senconds).release(element)
 
@@ -175,6 +195,11 @@ class BasePage(object):
 
 
     def switch_to_window_by_titleName(self,titleName):
+        '''
+        根据页面是否包含titleName切换句柄
+        :param titleName: 页面的title名称
+        :return:
+        '''
         for handle in self.driver.window_handles:
             if WebDriverWait(self.driver,local_config.time_out).until(EC.title_contains(titleName)):
                 self.driver.switch_to.window(handle)
@@ -182,6 +207,11 @@ class BasePage(object):
         logger.info('根据当前页面title包含[%s]切换句柄'%titleName)
 
     def switch_to_window_by_url(self,url):
+        '''
+        根据页面是否包含URL切换句柄
+        :param url: 页面包含的URL地址
+        :return:
+        '''
         for handle in self.driver.window_handles:
             if WebDriverWait(self.driver,local_config.time_out).until(EC.url_contains(url)):
                 self.driver.switch_to.window(handle)
@@ -189,6 +219,11 @@ class BasePage(object):
         logger.info('根据当前页面url包含[%s]切换句柄'%url)
 
     def screenshot_asfile(self,*screen_path):
+        '''
+        截图并存放在文件夹中
+        :param screen_path: 截图存放路径
+        :return:
+        '''
         current_path=os.path.dirname(__file__)
         if len(screen_path)==0:
             screenshot_filepath=local_config.screenshot_path

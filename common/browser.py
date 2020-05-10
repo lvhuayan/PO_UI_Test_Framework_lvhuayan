@@ -41,6 +41,6 @@ class Browser():
     def __get_remote_driver(self):  # selenium支持分布式 grid == > 配置（你自己的代码编写、配置）
         pass
 
-if __name__=='__main__':
-    browser=Browser()
-    browser.get_chrome_driver()
+# if __name__=='__main__':
+#     browser=Browser()
+#     browser.get_chrome_driver()
