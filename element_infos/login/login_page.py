@@ -4,7 +4,7 @@ from selenium.webdriver.common.by import By
 
 from common.browser import Browser
 from common.config_utils import local_config
-from common.log_utils import logger
+from common.log_utils_old import logger
 from common.base_page import BasePage
 from common.elements_data_utils import  ElementDataUtils
 from common.elements_yaml_utils import get_element_from_yaml

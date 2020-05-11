@@ -2,6 +2,7 @@ import os
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from common.config_utils import local_config
+from common.log_utils_old import logger
 
 current_path=os.path.dirname(__file__)
 dri_path=os.path.join(current_path,'..',local_config.driver_path)
@@ -27,16 +28,19 @@ class Browser():
         chrome_options.add_experimental_option("excludeSwitches", ['enable-automation'])#取消chrome受自动控制提示
         chrome_driver_path=os.path.join(self.driver_path,'chromedriver.exe')
         driver=webdriver.Chrome(options=chrome_options,executable_path=chrome_driver_path,)
+        logger.info('初始化并启动谷歌浏览器')
         return driver
 
     def get_firefox_driver(self):
         firefox_driver_path=os.path.join(self.driver_path,'geckodriver.exe')
         driver=webdriver.Firefox(executable_path=firefox_driver_path)
+        logger.info('初始化并启动火狐浏览器')
         return driver
 
     def get_edge_driver(self):
         edge_driver_path=os.path.join(self.driver_path,'MicrosoftWebDriver.exe')
         driver=webdriver.Edge(executable_path=edge_driver_path)
+        logger.info('初始化并启动微软浏览器')
         return driver
     def __get_remote_driver(self):  # selenium支持分布式 grid == > 配置（你自己的代码编写、配置）
         pass

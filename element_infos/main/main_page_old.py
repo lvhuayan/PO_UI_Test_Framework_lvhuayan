@@ -3,7 +3,7 @@ from selenium.webdriver.common.by import By
 
 from common.base_page import BasePage
 from element_infos.login.login_page import LoginPage
-from common.log_utils import logger
+from common.log_utils_old import logger
 
 class MainPage(BasePage):
     def __init__(self,driver):

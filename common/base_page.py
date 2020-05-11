@@ -9,7 +9,7 @@ from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.keys import Keys
 from common.config_utils import local_config
 
-from common.log_utils import logger
+from common.log_utils_old import logger
 
 class BasePage(object):
     def __init__(self,driver):

@@ -44,9 +44,14 @@ class ConfigUtils(object):
         password_value =self.cfg.get('default','password')
         return password_value
 
+    @property
+    def excel_path(self):
+        excel_path_value =self.cfg.get('default','excel_path')
+        return excel_path_value
+
 local_config=ConfigUtils()
 
 
 if __name__=='__main__':
    config= ConfigUtils()
-   print(config.password)
+   print(config.excel_path)
