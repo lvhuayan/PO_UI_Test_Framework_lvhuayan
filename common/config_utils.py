@@ -49,9 +49,19 @@ class ConfigUtils(object):
         excel_path_value =self.cfg.get('default','excel_path')
         return excel_path_value
 
+    @property
+    def log_path(self):
+        log_path_value =self.cfg.get('default','log_path')
+        return log_path_value
+
+    @property
+    def log_level(self):
+        log_level_value =self.cfg.get('default','log_level')
+        return log_level_value
+
 local_config=ConfigUtils()
 
 
 if __name__=='__main__':
    config= ConfigUtils()
-   print(config.excel_path)
+   print(config.log_level)

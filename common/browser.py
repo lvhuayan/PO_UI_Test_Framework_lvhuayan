@@ -2,7 +2,7 @@ import os
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from common.config_utils import local_config
-from common.log_utils_old import logger
+from common.log_utils import logger
 
 current_path=os.path.dirname(__file__)
 dri_path=os.path.join(current_path,'..',local_config.driver_path)

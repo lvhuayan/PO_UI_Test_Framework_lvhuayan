@@ -1,5 +1,6 @@
 import os
 import time
+import traceback
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.select import Select
@@ -8,8 +9,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.keys import Keys
 from common.config_utils import local_config
-
-from common.log_utils_old import logger
+from common.log_utils import logger
 
 class BasePage(object):
     def __init__(self,driver):
@@ -17,8 +17,11 @@ class BasePage(object):
 
     # 浏览器操作封装 -- > 二次封装
     def open_url(self,url):
-        self.driver.get( url )
-        logger.info('打开url地址 %s '% url )
+        try:
+            self.driver.get( url )
+            logger.info('打开url地址 %s '% url )
+        except Exception as e:
+            logger.error('无法打开该地址，原因是：%s'%traceback.format_exc()) #输出详细错误信息，验证没成功，依然没内容
 
     def set_browser_max(self):
         self.driver.maximize_window()
@@ -64,65 +67,88 @@ class BasePage(object):
         :param element_info:元素信息 字典类型{'':'','':''}
         :return:element对象
         '''
-        locator_type_name = element_info['locator_type']
-        locator_value_info = element_info['locator_value']
-        locator_timeout = element_info['timeout']
-        if locator_type_name == 'id':
-            locator_type = By.ID
-        if locator_type_name == 'name':
-            locator_type = By.NAME
-        elif locator_type_name == 'class':
-            locator_type = By.CLASS_NAME
-        elif locator_type_name == 'xpath':
-            locator_type = By.XPATH
-        element = WebDriverWait(self.driver,locator_timeout)\
-            .until(lambda x:x.find_element(locator_type,locator_value_info))
-        logger.info('[%s]元素识别成功'%element_info['element_name'])
-        # element = WebDriverWait(self.driver, locator_timeout)\
-        #     .until(EC.presence_of_element_located((locator_type, locator_value_info)))
+        try:
+            locator_type_name = element_info['locator_type']
+            locator_value_info = element_info['locator_value']
+            locator_timeout = element_info['timeout']
+            if locator_type_name == 'id':
+                locator_type = By.ID
+            if locator_type_name == 'name':
+                locator_type = By.NAME
+            elif locator_type_name == 'class':
+                locator_type = By.CLASS_NAME
+            elif locator_type_name == 'xpath':
+                locator_type = By.XPATH
+            element = WebDriverWait(self.driver,locator_timeout)\
+                .until(lambda x:x.find_element(locator_type,locator_value_info))
+            logger.info('[%s]元素识别成功'%element_info['element_name'])
+            # element = WebDriverWait(self.driver, locator_timeout)\
+            #     .until(EC.presence_of_element_located((locator_type, locator_value_info)))
+        except Exception as e:
+            logger.error('[%s]元素不能识别，原因是%s' % (element_info['element_name'],e.__str__()))
+            self.screenshot_asfile()
         return element
 
     def click(self,element_info):
-        element = self.find_element(element_info)
-        element.click()
-        logger.info('[%s]元素进行点击操作'%element_info['element_name'])
+        try:
+            element = self.find_element(element_info)
+            element.click()
+            logger.info('[%s]元素进行点击操作'%element_info['element_name'])
+        except Exception as e :
+            logger.error('[%s]元素进行点击失败，原因是：%s'%(element_info['element_name'],e.__str__()))
 
     def get_value(self,element_info,attribute):
-        element = self.find_element(element_info)
-        return element.get_attribute(attribute)
-        logger.info('获取[%s]的属性值'%element_info['element_name'])
+        try:
+            element = self.find_element(element_info)
+            return element.get_attribute(attribute)
+            logger.info('获取[%s]的属性值'%element_info['element_name'])
+        except Exception as e:
+            logger.error('[%s]元素获取失败，原因是：%s' % (element_info['element_name'], e.__str__()))
 
     def input(self,element_info,content):
-        element = self.find_element(element_info)
-        element.send_keys(content)
-        logger.info('[%s]元素输入内容：%s' %(element_info['element_name'],content))
+        try:
+            element = self.find_element(element_info)
+            element.send_keys(content)
+            logger.info('[%s]元素输入内容：%s' %(element_info['element_name'],content))
+        except Exception as e:
+            logger.error('[%s]元素输入失败，原因是：%s' % (element_info['element_name'], e.__str__()))
         
     def get_text(self,element_info):
         element = self.find_element(element_info)
         return  element.text
 
     def switchToFrame(self,element_info):
-        element = self.find_element(element_info)
-        self.driver.switch_to.frame(element)
-        logger.info('[%s]iframe跳转'%element_info['element_name'])
+        try:
+            element = self.find_element(element_info)
+            self.driver.switch_to.frame(element)
+            logger.info('[%s]iframe跳转'%element_info['element_name'])
+        except Exception as e:
+            logger.error('框架跳转失败，原因是：%s' % e.__str__())
 
     def scrollIntoView(self,element_info):
-        element = self.find_element(element_info)
-        self.driver.execute_script('arguments[0].scrollIntoView();', element)
-        self.wait(2)
-        logger.info('浏览器滚动到元素【%s】的位置'%element_info['element_name'])
+        try:
+            element = self.find_element(element_info)
+            self.driver.execute_script('arguments[0].scrollIntoView();', element)
+            self.wait(2)
+            logger.info('浏览器滚动到元素【%s】的位置'%element_info['element_name'])
+        except Exception as e:
+            logger.error('下拉到[%S]元素失败，原因是：%s' %(element_info['element_name'],e.__str__()))
 
     def scrollToBottom(self):
-        self.driver.execute_script('document.documentElement.scrollTop=100000;')# 浏览器滚动条下滑操作到底部
-        self.wait()
-        logger.info('浏览器下滑到底部操作')
-
-
+        try:
+            self.driver.execute_script('document.documentElement.scrollTop=100000;')# 浏览器滚动条下滑操作到底部
+            self.wait()
+            logger.info('浏览器下滑到底部操作')
+        except Exception as e:
+            logger.error('浏览器滚动到底部失败，原因是：%s' % e.__str__())
 
     def clear(self,element_info):
-        element = self.find_element(element_info)
-        element.clear()
-        logger.info('[%s]元素进行输入框清除操作'%element_info['element_name'])
+        try:
+            element = self.find_element(element_info)
+            element.clear()
+            logger.info('[%s]元素进行输入框清除操作'%element_info['element_name'])
+        except Exception as e:
+            logger.error('清除[%s]元素失败，原因是：%s'%(element_info['element_name'],e.__str__()))
 
     def select(self,element_info,content):
         element = self.find_element(element_info)

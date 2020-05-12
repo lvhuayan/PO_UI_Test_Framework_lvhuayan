@@ -2,7 +2,7 @@ import unittest
 from common.base_page import BasePage
 from common.config_utils import local_config
 from common.browser import Browser
-from common.log_utils_old import logger
+from common.log_utils import logger
 
 
 class SeleniumBasePage(unittest.TestCase):
