@@ -11,7 +11,7 @@ from common.config_utils import local_config
 
 current_path=os.path.dirname(__file__)
 excel_value_path=os.path.join(current_path,'..',local_config.excel_path)
-print(excel_value_path)
+
 
 class ExcelUtils():
     def __init__(self,sheet_name=None,excel_path=excel_value_path):

@@ -59,9 +59,14 @@ class ConfigUtils(object):
         log_level_value =self.cfg.get('default','log_level')
         return log_level_value
 
+    @property
+    def testdata_path(self):
+        testdata_path_value =self.cfg.get('default','testdata_path')
+        return testdata_path_value
+
 local_config=ConfigUtils()
 
 
 if __name__=='__main__':
    config= ConfigUtils()
-   print(config.log_level)
+   print(config.testdata_path)
