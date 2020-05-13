@@ -9,12 +9,11 @@ import xlrd
 import os
 from common.config_utils import local_config
 
-current_path=os.path.dirname(__file__)
-excel_value_path=os.path.join(current_path,'..',local_config.excel_path)
+
 
 
 class ExcelUtils():
-    def __init__(self,sheet_name=None,excel_path=excel_value_path):
+    def __init__(self,excel_path,sheet_name=None):
         self.excel_path=excel_path
         self.sheet_name = sheet_name
         self.sheet_data=self.__get_sheet_data()
@@ -48,9 +47,12 @@ class ExcelUtils():
         return all_data
 
 if __name__=='__main__':
-    Excel_utils=ExcelUtils('login')
+    current_path = os.path.abspath(os.path.dirname(__file__))
+    test_data_path = os.path.join(current_path, '..', local_config.testdata_path)
+    Excel_utils=ExcelUtils(test_data_path,'login_suite')
     value=Excel_utils.get_all_data_by_list()
     print(value)
+    print(Excel_utils.get_row_count)
 
 
 

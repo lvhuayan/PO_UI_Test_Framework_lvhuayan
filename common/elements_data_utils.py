@@ -8,7 +8,7 @@ element_data_excel = os.path.join(current_path, '../element_info_data/element_in
 
 class ElementDataUtils:
     def __init__(self,model_name,page_name):
-        self.excel_utils=ExcelUtils(model_name)
+        self.excel_utils=ExcelUtils(element_data_excel,model_name)
         self.page_name=page_name
 
     def get_element_info(self):
