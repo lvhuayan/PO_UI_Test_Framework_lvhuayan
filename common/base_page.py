@@ -8,6 +8,8 @@ from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.keys import Keys
+
+from common import HTMLTestReportCN
 from common.config_utils import local_config
 from common.log_utils import logger
 
@@ -96,7 +98,7 @@ class BasePage(object):
             logger.info('[%s]元素进行点击操作'%element_info['element_name'])
         except Exception as e :
             logger.error('[%s]元素进行点击失败，原因是：%s'%(element_info['element_name'],e.__str__()))
-
+            self.screenshot_asfile()
     def get_value(self,element_info,attribute):
         try:
             element = self.find_element(element_info)
@@ -244,7 +246,12 @@ class BasePage(object):
                 break
         logger.info('根据当前页面url包含[%s]切换句柄'%url)
 
-    def screenshot_asfile(self,*screen_path):
+    def screenshot_asfile(self):
+        report_path = os.path.join(os.path.abspath(os.path.dirname(__file__)), '..', local_config.report_path)
+        report_dir = HTMLTestReportCN.ReportDirectory(report_path)
+        report_dir.get_screenshot(self.driver)
+
+    def screenshot_asfile_old(self,*screen_path):
         '''
         截图并存放在文件夹中
         :param screen_path: 截图存放路径

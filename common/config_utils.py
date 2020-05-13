@@ -64,9 +64,19 @@ class ConfigUtils(object):
         testdata_path_value =self.cfg.get('default','testdata_path')
         return testdata_path_value
 
+    @property
+    def case_path(self):
+        case_path_value =self.cfg.get('default','case_path')
+        return case_path_value
+
+    @property
+    def report_path(self):
+        report_path_value =self.cfg.get('default','report_path')
+        return report_path_value
+
 local_config=ConfigUtils()
 
 
 if __name__=='__main__':
    config= ConfigUtils()
-   print(config.testdata_path)
+   print(config.report_path)

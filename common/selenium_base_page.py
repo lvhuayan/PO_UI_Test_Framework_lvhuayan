@@ -20,8 +20,13 @@ class SeleniumBasePage(unittest.TestCase):
 
 
     def tearDown(self) -> None:
-        logger.info('============测试方法执行完毕==============')
+        errors = self._outcome.errors
+        for test,exc_info in errors:
+            if exc_info:
+                self.base_page.wait()
+                self.base_page.screenshot_asfile()
         self.base_page.close_tab()
+        logger.info('============测试方法执行完毕==============')
 
     @classmethod
     def tearDownClass(cls) -> None:
