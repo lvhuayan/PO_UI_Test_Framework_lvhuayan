@@ -43,7 +43,7 @@ class AuthorityPage(BasePage):
         #                           'timeout': 2}
 
         # 方式一：excel文件做数据源
-        elements = ElementDataUtils('authority_page').get_element_info()
+        elements = ElementDataUtils('authority','authority_page').get_element_info()
 
         # 方式二：yaml文件做数据源
         # elements=get_element_from_yaml(yaml_date_path)

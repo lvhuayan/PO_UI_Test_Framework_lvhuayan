@@ -19,19 +19,22 @@ class LoginTest(SeleniumBasePage):
         super().setUp()
         # print('该测试模块独有的setup内容需要先继承seleniumbasepage的setup方法然后再写独有的内容')
 
+    def tearDown(self) -> None:
+        super().tearDown()
+
 
     def test_login_success(self):
         loginaction=LoginActions(self.driver)
         test_function_data =self.login_test_data['test_login_success']
         main_page=loginaction.login_success(test_function_data ['test_parameter'].get('username'),test_function_data ['test_parameter'].get('password'))
         actual_result=main_page.get_username()
-        self.assertEqual(actual_result,'admin','test_login_success用例执行失败')
+        self.assertEqual(actual_result,test_function_data ['expect_result'],'test_login_success用例执行失败')
 
     def test_login_fail(self):
         loginaction=LoginActions(self.driver)
         test_function_data  = self.login_test_data['test_login_fail']
         actual_result=loginaction.login_fail(test_function_data ['test_parameter'].get('username'),test_function_data ['test_parameter'].get('password'))
-        self.assertEqual(actual_result, '登录失败，请检查您的用户名或密码是否填写正确。', 'test_login_fail用例执行失败')
+        self.assertEqual(actual_result, test_function_data ['expect_result'], 'test_login_fail用例执行失败')
 
 
 if __name__ == '__main__':
